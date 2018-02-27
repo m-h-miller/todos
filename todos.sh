@@ -2,6 +2,10 @@
 
 usage() {
 	cat <<EOF
+  cat <<EOF
+usage: todos [-h]
+EOF
+}
 
 Usage: todos -l	: list todos.
        todos -h : show this.
