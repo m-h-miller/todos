@@ -1,18 +1,22 @@
 #!/usr/bin/env bash
 
 usage() {
-	cat <<EOF
   cat <<EOF
-usage: todos [-h]
+usage: todos [options]
+ 	-h : show this.
 EOF
 }
+declare -r __FILE="$__DIR/.todos"
 
-Usage: todos -l	: list todos.
-       todos -h : show this.
-       todos -o : open todos in editor.
-       todos -n : add a new todo.
+declare -r __GREEN="\033[32m"
 
-EOF
+
+# Init.
+if [ ! -f "$__FILE" ] ; then
+	touch "$__DIR/.todos"
+	echo -e "${__GREEN} File initialized: $__FILE${__DEFAULT}"
+fi
+
 }
 
 
