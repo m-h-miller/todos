@@ -6,8 +6,8 @@ usage: todos [options]
  	-h : show this.
 EOF
 }
-declare -r __FILE="$__DIR/.todos"
 
+declare -r __FILE="$__DIR/.todos"
 declare -r __GREEN="\033[32m"
 
 
