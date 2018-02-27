@@ -7,10 +7,11 @@ usage: todos [options]
 EOF
 }
 
-declare -r __FILE="$__DIR/.todos"
 declare -r __GREEN="\033[32m"
 
+declare -r __DIR="$(dirname "${BASH_SOURCE[0]}")"
 
+declare -r __FILE="$__DIR/.todos"
 # Init.
 if [ ! -f "$__FILE" ] ; then
 	touch "$__DIR/.todos"
@@ -30,6 +31,11 @@ for option in "$@"; do
 
 		-h | --h | --help)
 			usage
+			exit 0
+		;;
+
+		-o | --o | --open)
+			open $__FILE
 			exit 0
 		;;
 
