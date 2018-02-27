@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# Init.
+if [ ! -d "./.todos/" ] ; then
+	mkdir "$__DIR/.todos"
+	echo -e "${__GREEN} Directory initialized: $__FILE${__DEFAULT}"
+fi
+
 usage() {
   cat <<EOF
 usage: todos [options]
@@ -15,13 +21,6 @@ fi
 declare -r __GREEN="\033[32m"
 declare -r __DIR="$(dirname "${BASH_SOURCE[0]}")"
 declare -r __FILE="$__DIR/.todos"
-
-# Init.
-if [ ! -f "$__FILE" ] ; then
-	touch "$__DIR/.todos"
-	echo -e "${__GREEN} File initialized: $__FILE${__DEFAULT}"
-fi
-
 
 # Main.
 for option in "$@"; do
