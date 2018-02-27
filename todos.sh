@@ -7,23 +7,21 @@ usage: todos [options]
 EOF
 }
 
+if [[ $# = 0 ]]; then
+	usage
+	exit 0
+fi
+
 declare -r __GREEN="\033[32m"
-
 declare -r __DIR="$(dirname "${BASH_SOURCE[0]}")"
-
 declare -r __FILE="$__DIR/.todos"
+
 # Init.
 if [ ! -f "$__FILE" ] ; then
 	touch "$__DIR/.todos"
 	echo -e "${__GREEN} File initialized: $__FILE${__DEFAULT}"
 fi
 
-}
-
-
-if [[ $# = 0 ]]; then
-	usage
-fi
 
 # Main.
 for option in "$@"; do
