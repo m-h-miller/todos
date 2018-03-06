@@ -1,19 +1,18 @@
 #!/usr/bin/env bash
 
-declare -r __DIR="$(dirname "${BASH_SOURCE[0]}")"
 declare -r __ITERATOR="$__DIR/.iterator"
-
+declare -r __DIR="$(dirname "${BASH_SOURCE[0]}")"
 declare -r __DATA="$__DIR/.todos"
 declare -r __DONE="$__DIR/.done"
 
 # Init.
 if [ ! -d "$HOME/dev/todos/.todos" ] ; then
-	echo -e "Directory initialized: $__DATA/.todos"
-	mkdir "$__DIR/.todos"
+	echo -e "Directory initialized: $__DATA"
+	mkdir "$__DATA"
 fi
 
 if [ ! -d "$HOME/dev/todos/.done" ] ; then
-	echo -e "Directory initialized: $__DIR/.done"
+	echo -e "Directory initialized: $__DONE"
 	mkdir "$__DONE"
 fi
 
