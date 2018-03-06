@@ -1,21 +1,29 @@
 #!/usr/bin/env bash
 
-declare -r __GREEN="\033[32m"
 declare -r __DIR="$(dirname "${BASH_SOURCE[0]}")"
+declare -r __ITERATOR="$__DIR/.iterator"
+
 declare -r __DATA="$__DIR/.todos"
+declare -r __DONE="$__DIR/.done"
 
 # Init.
-if [ ! -d "./.todos/" ] ; then
+if [ ! -d "$HOME/dev/todos/.todos" ] ; then
+	echo -e "Directory initialized: $__DATA/.todos"
 	mkdir "$__DIR/.todos"
-	echo -e "${__GREEN} Directory initialized: $__FILE${__DEFAULT}"
+fi
+
+if [ ! -d "$HOME/dev/todos/.done" ] ; then
+	echo -e "Directory initialized: $__DIR/.done"
+	mkdir "$__DONE"
 fi
 
 usage() {
   cat <<EOF
 usage: todos [options]
- 	-h : show this.
-	-o : natively open todos dir.
+ 	-h : show this
+	-o [idx] : natively open todos dir
 	-n : create a new todo
+	-l : list todos
 EOF
 }
 
@@ -40,6 +48,20 @@ validate_title() {
 	[[ "$@" =~ ^[a-zA-Z0-9][-a-zA-Z0-9]{0,61}[a-zA-Z0-9]$ ]]
 }
 
+iterate() {
+	# Read from file.
+	# if we don't have a file, start at zero
+	if [ ! -f "$__ITERATOR" ] ; then
+		i=0
+	# otherwise read the value from the file
+	else
+		i=$(cat $__ITERATOR)
+	fi
+	i=`expr $i + 1`
+
+	echo "${i}" > $__ITERATOR
+}
+
 # @param $1 : name of file
 new_todo() {
 	# make_title defined in util.
@@ -50,26 +72,62 @@ new_todo() {
 		exit 1;
 	}
 
+	iterate # imperatively update iterator.
+	__TITLE=$(cat $__ITERATOR)'-'$__TITLE
+
+	echo $(date +%F) > "$__DATA/$__TITLE"
 	(touch "$__DATA/$__TITLE" && cat) >> "$__DATA/$__TITLE"
+}
+
+list_todos() {
+	for file in $(ls $__DATA); do
+		echo $file
+	done
+}
+
+open_todos() {
+	shift
+	for file in $(ls $__DATA); do
+		index=$(echo $file | cut -d'-' -f1)
+		if [ $@ -eq $index ] ; then
+			cat "$__DATA/$file"
+		fi
+	done
+}
+
+delete_todo() {
+	shift
+	for f in $(ls $__DATA); do
+		index=$(echo $f | cut -d'-' -f1)
+		if [ $@ -eq $index ] ; then
+			echo "$f marked done."
+			mv "$__DATA/$f" "$__DONE/$f"
+		fi
+	done
 }
 
 # Main.
 for option in "$@"; do
 	case $option in
 
-		-h | --h | --help)
+		-h | --H | --help)
 			usage
-			exit 0
 		;;
 
-		-o | --o | --open)
-			open $__DATA
-			exit 0
+		-o | --O | --open)
+			open_todos "$@"
 		;;
 
-		-n | --new)
+		-n | --N | --new)
 			new_todo "$@"
-			exit 0
+		;;
+
+		-l | --L | --list)
+			list_todos
+		;;
+
+		-d | --D | --done)
+			delete_todo "$@"
 		;;
 	esac
 done
