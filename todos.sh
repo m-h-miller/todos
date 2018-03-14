@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-declare -r __ITERATOR="$__DIR/.iterator"
 declare -r __DIR="$(dirname "${BASH_SOURCE[0]}")"
+declare -r __ITERATOR="$__DIR/.iterator"
 declare -r __DATA="$__DIR/.todos"
 declare -r __DONE="$__DIR/.done"
 
@@ -52,8 +52,8 @@ iterate() {
 	# if we don't have a file, start at zero
 	if [ ! -f "$__ITERATOR" ] ; then
 		i=0
-	# otherwise read the value from the file
 	else
+		# otherwise read the value from the file
 		i=$(cat $__ITERATOR)
 	fi
 	i=`expr $i + 1`
