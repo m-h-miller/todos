@@ -6,12 +6,13 @@ declare -r __DATA="$__DIR/.todos"
 declare -r __DONE="$__DIR/.done"
 
 # Init.
-if [ ! -d "$HOME/dev/todos/.todos" ] ; then
+
+if [ ! -d "$__DATA" ] ; then
 	echo -e "Directory initialized: $__DATA"
 	mkdir "$__DATA"
 fi
 
-if [ ! -d "$HOME/dev/todos/.done" ] ; then
+if [ ! -d "$__DONE" ] ; then
 	echo -e "Directory initialized: $__DONE"
 	mkdir "$__DONE"
 fi
