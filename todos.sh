@@ -21,9 +21,12 @@ usage() {
   cat <<EOF
 usage: todos [options]
  	-h : show this
-	-o [idx] : natively open todos dir
 	-n : create a new todo
 	-l : list todos
+	-o [idx]: natively open todos dir
+	-d [idx]: mark todo as done
+
+	--last : show last todo
 EOF
 }
 
@@ -85,6 +88,10 @@ list_todos() {
 	done
 }
 
+show_last_todo() {
+	cat $__DATA/$(list_todos | sort -V | tail -n 1)
+}
+
 open_todos() {
 	shift
 	for file in $(ls $__DATA); do
@@ -128,6 +135,10 @@ for option in "$@"; do
 
 		-d | --D | --done)
 			delete_todo "$@"
+		;;
+
+		--last)
+			show_last_todo
 		;;
 	esac
 done
