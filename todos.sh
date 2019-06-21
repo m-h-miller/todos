@@ -89,7 +89,9 @@ list_todos() {
 }
 
 show_last_todo() {
-	cat $__DATA/$(list_todos | sort -V | tail -n 1)
+	__LAST_TODO=$(list_todos | sort -V | tail -n 1)
+	echo $__LAST_TODO
+	cat $__DATA/$__LAST_TODO
 }
 
 open_todos() {
