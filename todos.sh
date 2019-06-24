@@ -1,18 +1,19 @@
-#!/usr/bin/env bash
+#!/bin/bash
+# My personal todo list script.
 
 declare -r __DIR="$(dirname "${BASH_SOURCE[0]}")"
 declare -r __ITERATOR="$__DIR/.iterator"
 declare -r __DATA="$__DIR/.todos"
 declare -r __DONE="$__DIR/.done"
 
-# Init.
-
-if [ ! -d "$__DATA" ] ; then
+if [ ! -d "$__DATA" ]
+then
 	echo -e "Directory initialized: $__DATA"
 	mkdir "$__DATA"
 fi
 
-if [ ! -d "$__DONE" ] ; then
+if [ ! -d "$__DONE" ]
+then
 	echo -e "Directory initialized: $__DONE"
 	mkdir "$__DONE"
 fi
@@ -31,9 +32,13 @@ EOF
 }
 
 # Early exit.
-if [[ $# = 0 ]]; then
+E_WRONGARGS=85
+# if [[ $# = 0 ]]; then
+# if [ $# -ne $Number_of_expected_args ]; then
+if [ ! -n "$1" ]
+then
 	usage
-	exit 0
+	exit $E_WRONGARGS
 fi
 
 join_by() {
@@ -144,3 +149,5 @@ for option in "$@"; do
 		;;
 	esac
 done
+
+exit 0
