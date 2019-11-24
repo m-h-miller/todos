@@ -1,10 +1,17 @@
 #!/bin/bash
 # My personal todo list script.
 
-declare -r __DIR="$(dirname "${BASH_SOURCE[0]}")"
+declare -r __DIR="/keybase/private/twobuy/todos"
+# declare -r __DIR="$(dirname "${BASH_SOURCE[0]}")"
 declare -r __ITERATOR="$__DIR/.iterator"
 declare -r __DATA="$__DIR/.todos"
 declare -r __DONE="$__DIR/.done"
+
+if [ ! -d "$__DIR" ]
+then
+	echo -e "Directory initialized: $__DIR"
+	mkdir "$__DIR"
+fi
 
 if [ ! -d "$__DATA" ]
 then
